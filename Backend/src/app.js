@@ -5,15 +5,20 @@ Server ko create karna
 const express = require('express');
 const noteModel = require('./models/note.model');
 const cors = require('cors');
-const path = require('path');
+// const path = require('path');
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("Backend is running successfully 🚀");
+});
 /**
  * http://localhost:3000/asserts/index-C-MukGQ1.js
  */
-app.use(express.static("./public"))
+// app.use(express.static("./public"))
 /**
  * - Post/api/notes -> create a note
  * - Create new note and save data in mongoDb
@@ -29,7 +34,7 @@ app.post('/api/notes', async (req, res) => {
     res.status(201).json({
         message: 'Note created successfully',
         note
-    })
+    });
     // console.log(req.body);
     // res.send('Note created successfully');
 });
@@ -40,12 +45,10 @@ app.post('/api/notes', async (req, res) => {
  */
 
 app.get('/api/notes', async (req, res) => {
-    const notes = await noteModel.find();
-
-    res.status(200).json({
+  const notes = await noteModel.find();
+  res.status(200).json({ 
         message: 'Notes fetched successfully',
-        notes
-    })
+    notes });
 });
 
 /**
@@ -81,4 +84,4 @@ app.use('*name',(req, res)=>{
     res.sendFile(path.join(__dirname,"..", "public/index.html"))
 })
 
-module.exports = app
+module.exports = app;
